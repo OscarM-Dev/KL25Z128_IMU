@@ -22,6 +22,8 @@ int main( void ){
 	//Mcu configuration.
 	conf = Clk_conf;
 	conf();
+	conf = Lpt_conf;
+	conf();
 	
 	
 	for(;;) {

@@ -44,3 +44,18 @@ void Clk_conf( void ){
     //PLLFLLSEL by default is FLL.
 }
 
+/**
+ * @brief This function configures the LPTMR with a temporization of 50ms.
+ * 
+ */
+void Lpt_conf( void ){        
+    SIM_SCGC5 = 1;  //Clock enabled for LPT module.
+    LPTMR0_PSR |= ( uint8_t )0x28;  //MCGIRCLK selected, and prescaler of 64 -->sync Clk 62.5Khz, count period of 16us.
+    LPTMR0_CMR = 6250;  //Compare value.
+    
+    //Interrupt configuration.
+    LPTMR0_CSR = 64;    //Local enable.
+    NVIC_ISER |= (1 << 28);  //Global enable.
+
+    LPTMR0_CSR |= 1;    //Counter enabled.
+}

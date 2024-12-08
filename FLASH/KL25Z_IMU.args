@@ -4,6 +4,7 @@
 "./Sources/sa_mtb.o"
 "./Sources/mcu_conf.o"
 "./Sources/main.o"
+"./Sources/ISRs.o"
 -mcpu=cortex-m0
 -mthumb
 -mfloat-abi=soft
