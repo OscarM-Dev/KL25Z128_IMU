@@ -5,7 +5,7 @@
  */
 
 //Headers.
-#include"mcu_conf.h"
+#include "mcu_conf.h"
 
 //Functions.
 /**
@@ -24,7 +24,7 @@
  * ERCLK32K -->Not used
  * LPO -->Not used
  */
-void Clk_conf( void ){
+void Clk_conf( void ) {
     MCG_SC = 0; //FIRC divider to 1, FIRC -->4Mhz.
 
     //MCGFLLCLK configuration.
@@ -48,7 +48,7 @@ void Clk_conf( void ){
  * @brief This function configures the LPTMR with a temporization of 50ms.
  * 
  */
-void Lpt_conf( void ){        
+void Lpt_conf( void ) {        
     SIM_SCGC5 = 1;  //Clock enabled for LPT module.
     LPTMR0_PSR |= ( uint8_t )0x28;  //MCGIRCLK selected, and prescaler of 64 -->sync Clk 62.5Khz, count period of 16us.
     LPTMR0_CMR = 6250;  //Compare value.
@@ -58,4 +58,31 @@ void Lpt_conf( void ){
     NVIC_ISER |= (1 << 28);  //Global enable.
 
     LPTMR0_CSR |= 1;    //Counter enabled.
+}
+
+/**
+ * @brief This function configures the I2C0 controller.
+ * @note I2C0 is master, in standardad mode with a bit rate of 100Kbps.
+ */
+void I2C0_conf( void ) {
+    SIM_SCGC4 = 64; //Clock enabled.
+    I2C0_C1 = 0x80; //Module enabled.
+
+    //Bus clk is the clk source for the module.
+
+    //Pin configuration, PTE24 -->SCL, PTE25 -->SDA.
+    SIM_SCGC5 |= 8192;  //Port E clock enable.
+    PORTE_PCR24 = 1280; //ALT5
+    PORTE_PCR25 = 1280; //ALT5
+
+    /*Bit rate configuration, standard mode -->100Kbps,
+    SCL divider -->30
+    MUL -->4
+    SDA hold time -->3us
+    SCL start hold time -->3.6us
+    SCL stop hold time -->5.3us
+    */
+    I2C0_F = 0x85;
+
+    //Insert timeout timer configuration.
 }

@@ -5,7 +5,7 @@
  */
 
 //Headers.
-#include<stdint.h>
+#include <stdint.h>
 #include "derivative.h"
 
 //ISRs.
@@ -14,7 +14,7 @@
  * @brief LPTMR ISR. 
  * @note Only TCF can generate an interrupt, also the counter is restarted automatically.
  */
-void LPTimer_IRQHandler(){
+void LPTimer_IRQHandler() {
     
     
     LPTMR0_CSR |= 128;  //Clear flag. 
