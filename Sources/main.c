@@ -6,25 +6,24 @@
  * 
  * 
  */
-
-
-
-
-
+//Headers.
 #include "derivative.h" /* include peripheral declarations */
 #include "mcu_conf.h"
 
 
 int main( void ){
 	//local data
+	const uint32_t conf_func_addrs[3] = { ( uint32_t ) Clk_conf, ( uint32_t ) I2C0_conf , ( uint32_t ) Lpt_conf };	
 	void ( *conf ) ( void ) = 0;	//Pointer to function.
-	
+	uint8_t i = 0;
+
+
+
 	//Mcu configuration.
-	conf = Clk_conf;
-	conf();
-	conf = Lpt_conf;
-	conf();
-	
+	for ( i = 0; i < 3; i++ ) {
+		conf = ( void* ) conf_func_addrs[i];
+		conf();
+	}
 	
 	for(;;) {
 	}
