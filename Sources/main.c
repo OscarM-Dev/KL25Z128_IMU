@@ -1,7 +1,7 @@
 /**
  * @file main.c
  * @brief This project uses the onboard IMU MMA8451Q for calculating the board inclination in real time, 
- * using I2C standard communication with a bit rate of 100Kbps, and a LPTMR timer using a temporization of 50ms
+ * using I2C standard communication with a bit rate of 100Kbps, and a LPTMR timer using a temporization of 100ms
  * for calculating the inclination. 
  * 
  * 
@@ -10,14 +10,14 @@
 #include "derivative.h" /* include peripheral declarations */
 #include "mcu_conf.h"
 
+//Global data.
+volatile float board_inclination[3]; //Board inclination in deg from x, y and z plane, check direction axis of IMU in data sheet.
 
 int main( void ){
 	//local data
 	const uint32_t conf_func_addrs[3] = { ( uint32_t ) Clk_conf, ( uint32_t ) I2C0_conf , ( uint32_t ) Lpt_conf };	
 	void ( *conf ) ( void ) = 0;	//Pointer to function.
 	uint8_t i = 0;
-
-
 
 	//Mcu configuration.
 	for ( i = 0; i < 3; i++ ) {

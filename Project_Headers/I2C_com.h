@@ -27,10 +27,12 @@
 
 typedef enum { OK, ERROR, ARBITRATIONL } status;    ///< Status type for functions.
 
+//Global data.
+extern volatile float board_inclination[3];    //Board inclination in deg from x, y and z plane, check direction axis of IMU in data sheet.
 
 //Functions.
 status I2C_write( uint8_t *const write_inst, uint8_t size );
 status I2C_read( uint8_t *const read_inst, uint8_t *const answer_buffer, uint8_t size );
-status IMU_com( volatile float *angle );
+status IMU_com( volatile float *const angle );
 
 #endif

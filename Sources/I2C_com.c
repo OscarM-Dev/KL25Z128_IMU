@@ -142,31 +142,61 @@ status I2C_read( uint8_t *const read_inst, uint8_t *const answer_buffer, uint8_t
 }
 
 /**
- * @brief This function comunicates with the IMU MMA8451Q for calculating the inclination of the board in deg.
+ * @brief This function comunicates with the IMU MMA8451Q for calculating the inclination of the board in deg from the x, y an z planes.
  * @note Once the IMU is activated you need to wait at least 100ms for comunicating with it.
  * @note The max SDA holdtime value supported by the IMU is 2us.
+ * @note The 3 axis outputs are of 14bits 2´s complement, which measure the aceleration in G of the axis in real time with a frequency of 800Hz.
+ * @note The G output of each axis is divided in 2 registers with the MSB and LSB part.
+ * @note By default the acelaration measurement range is 2G, so G values of each axis will range -2g to 2g.
+ * @note Remember that the G outputs are in terms of increments (raw values), you will need to convert them in order to know the actual G value of the axis.
  * 
- * @param angle Pointer to data to store the inclination value.
+ * @note Convertion notes; 
+ *  -In the default configuration with a measurement range of 2G, with 14 bits 2´s complement, 
+ *      -You have a range of values from -8192 (-2G) to 8191 (2G).
+ *      -Around 8192 increments in both ways.
+ *      -In this case 4196 increments in both ways is equal to 1G.
+ *      -Each increment in both ways is equal to .25mG. 
+ * 
+ * @note In this case the calculus of the inclination will be taking the aceleration magnitude (G) of each axis but all in increments terms.
+ * 
+ * @param angle Pointer to array to store the inclination values of each axis.
  * @return status Status of the operation.
  */
-status IMU_com( volatile float *angle ) {
+status IMU_com( volatile float *const angle ) {
     //local data
     static uint8_t first_call = 1;
-    status result = OK;
+    static uint8_t IMU_reception_buffer[32];    //Reception buffer for answers.
+    static uint16_t IMU_axis_magnitudes[3];     //Array for x, y and z axis aceleration magnitudes (increments) of the actual measurement.
 
     //Instructions for slave.
     uint8_t IMU_write_activation[3] = { IMU_W_CONTROL, IMU_ACT_ADDR, 0x01 };   //Write instruction to put IMU in active mode.
     uint8_t IMU_read_activation[3] = { IMU_W_CONTROL, IMU_ACT_ADDR, IMU_R_CONTROL };   //Read instruction to read activation register.    
     uint8_t IMU_read_outputs[3] = { IMU_W_CONTROL, IMU_OUTX_MSB_ADDR, IMU_R_CONTROL };  //Read instruction for IMU 3 axis outputs.
-    static uint8_t IMU_reception_buffer[32];    //Reception buffer for answers.
+    status result = OK;
+    uint8_t i = 0;
+    int16_t negative_output;    //Dummy variable for storing a negative output in 16 bits 2´s complement.
     
     if ( first_call ) { //Only the IMU is activated.
         I2C_write( IMU_write_activation, 3 );
         first_call = 0;
     }
 
-    else {  //Calculating inclination.
-        I2C_read( IMU_read_outputs, IMU_reception_buffer, 6 );
+    else {  //Calculating inclination, always the shortest angle from 0.
+        I2C_read( IMU_read_outputs, IMU_reception_buffer, 6 );  //Reading the axises aceleration outputs.
+
+        for ( i = 0; i < 3; i++ ) { //Obtaning magnitudes values of each axis.
+            IMU_axis_magnitudes[i] = ( ( ( uint16_t ) IMU_reception_buffer[i + i] << 8 ) | ( IMU_reception_buffer[i + i + 1] ) ) >> 2;  //Joining the 14 bits of each axis aceleration output.
+
+            if ( ( IMU_axis_magnitudes[i] >> 13 ) == 1 ) { //Output has negative sign bit, negative axis aceleration output.
+                IMU_axis_magnitudes[i] |= ( uint16_t ) -8192;    //Transforming data from 14 bits 2´s complement to 16 bits 2´s complement.
+                negative_output = ( int16_t ) IMU_axis_magnitudes[i];   //Storing 16 bits 2´s complement data as int16.
+                IMU_axis_magnitudes[i] = ( uint16_t ) ( negative_output * -1 ); //Obtaining magnitude value.
+            }   //If output is positive (sign bit == 0), directly the output is the magnitude value, it doesn´t require a transformation to 16 bits.          
+        }
+
+        angle[0] = 90 - ( atan2( IMU_axis_magnitudes[2], IMU_axis_magnitudes[1] ) * ( 18000 / 314 ) );  //Inclination from X plane.
+        angle[1] = 90 - ( atan2( IMU_axis_magnitudes[2], IMU_axis_magnitudes[0] ) * ( 18000 / 314 ) );  //Inclination from Y plane.
+        angle[2] = 90 - ( atan2( IMU_axis_magnitudes[1], IMU_axis_magnitudes[0] ) * ( 18000 / 314 ) );  //Inclination form Z plane.
     }
 
 

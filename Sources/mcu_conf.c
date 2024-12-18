@@ -55,7 +55,7 @@ void Lpt_conf( void ) {
     
     //Interrupt configuration.
     LPTMR0_CSR = 64;    //Local enable.
-    NVIC_ISER |= (1 << 28);  //Global enable.
+    NVIC_ISER |= ( 1 << 28 );  //Global enable.
     
     LPTMR0_CSR |= 1;    //Counter enabled.
 }
