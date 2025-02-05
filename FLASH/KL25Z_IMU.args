@@ -4,6 +4,7 @@
 "./Sources/sa_mtb.o"
 "./Sources/mcu_conf.o"
 "./Sources/main.o"
+"./Sources/UART_com.o"
 "./Sources/ISRs.o"
 "./Sources/I2C_com.o"
 -mcpu=cortex-m0

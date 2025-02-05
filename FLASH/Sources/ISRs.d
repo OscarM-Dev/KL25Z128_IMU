@@ -24,7 +24,9 @@ Sources/ISRs.o: ../Sources/ISRs.c \
  C:/Freescale/CW\ MCU\ v10.7/MCU/ARM_GCC_Support/ewl/EWL_C/include/math_config.h \
  C:/Freescale/CW\ MCU\ v10.7/MCU/ARM_GCC_Support/ewl/EWL_C/include/arm/math.ARM.h \
  C:/Freescale/CW\ MCU\ v10.7/MCU/ARM_GCC_Support/ewl/EWL_C/include/cerrno \
- C:/Users/Familia/Documents/KL25Z_acel/KL25Z_IMU/Project_Headers/derivative.h
+ C:/Users/Familia/Documents/KL25Z_acel/KL25Z_IMU/Project_Headers/derivative.h \
+ C:/Users/Familia/Documents/KL25Z_acel/KL25Z_IMU/Project_Headers/status.h \
+ C:/Users/Familia/Documents/KL25Z_acel/KL25Z_IMU/Project_Headers/UART_com.h
 
 C:/Freescale/CW\ MCU\ v10.7/MCU/ARM_GCC_Support/ewl/EWL_C/include/lib_ewl.prefix:
 
@@ -77,3 +79,7 @@ C:/Freescale/CW\ MCU\ v10.7/MCU/ARM_GCC_Support/ewl/EWL_C/include/arm/math.ARM.h
 C:/Freescale/CW\ MCU\ v10.7/MCU/ARM_GCC_Support/ewl/EWL_C/include/cerrno:
 
 C:/Users/Familia/Documents/KL25Z_acel/KL25Z_IMU/Project_Headers/derivative.h:
+
+C:/Users/Familia/Documents/KL25Z_acel/KL25Z_IMU/Project_Headers/status.h:
+
+C:/Users/Familia/Documents/KL25Z_acel/KL25Z_IMU/Project_Headers/UART_com.h:

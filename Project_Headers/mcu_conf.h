@@ -19,6 +19,7 @@
 //Functions.
 void Clk_conf( void );
 void Lpt_conf( void );
+void UART0_conf( void );
 void I2C0_conf( void );
 
 

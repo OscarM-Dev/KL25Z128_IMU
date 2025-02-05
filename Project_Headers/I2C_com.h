@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include <math.h>
 #include "derivative.h"
-
+#include "status.h"
 
 //Enums and macros.
 #define IMU_SLAVE_ADDR 0x1D ///< IMU slave address.
@@ -23,9 +23,6 @@
 #define IMU_OUTY_LSB_ADDR 0x04  ///< IMU out y lsb address.
 #define IMU_OUTZ_MSB_ADDR 0x05  ///< IMU out z msb address.
 #define IMU_OUTZ_LSB_ADDR 0x06  ///< IMU out z lsb address.
-
-
-typedef enum { OK, ERROR, ARBITRATIONL } status;    ///< Status type for functions.
 
 //Global data.
 extern volatile float board_inclination[3];    //Board inclination in deg from x, y and z plane, check direction axis of IMU in data sheet.

@@ -8,6 +8,7 @@
 C_SRCS_QUOTED += \
 "../Sources/I2C_com.c" \
 "../Sources/ISRs.c" \
+"../Sources/UART_com.c" \
 "../Sources/main.c" \
 "../Sources/mcu_conf.c" \
 "../Sources/sa_mtb.c" \
@@ -15,6 +16,7 @@ C_SRCS_QUOTED += \
 C_SRCS += \
 ../Sources/I2C_com.c \
 ../Sources/ISRs.c \
+../Sources/UART_com.c \
 ../Sources/main.c \
 ../Sources/mcu_conf.c \
 ../Sources/sa_mtb.c \
@@ -22,6 +24,7 @@ C_SRCS += \
 OBJS += \
 ./Sources/I2C_com.o \
 ./Sources/ISRs.o \
+./Sources/UART_com.o \
 ./Sources/main.o \
 ./Sources/mcu_conf.o \
 ./Sources/sa_mtb.o \
@@ -29,6 +32,7 @@ OBJS += \
 C_DEPS += \
 ./Sources/I2C_com.d \
 ./Sources/ISRs.d \
+./Sources/UART_com.d \
 ./Sources/main.d \
 ./Sources/mcu_conf.d \
 ./Sources/sa_mtb.d \
@@ -36,6 +40,7 @@ C_DEPS += \
 OBJS_QUOTED += \
 "./Sources/I2C_com.o" \
 "./Sources/ISRs.o" \
+"./Sources/UART_com.o" \
 "./Sources/main.o" \
 "./Sources/mcu_conf.o" \
 "./Sources/sa_mtb.o" \
@@ -43,6 +48,7 @@ OBJS_QUOTED += \
 C_DEPS_QUOTED += \
 "./Sources/I2C_com.d" \
 "./Sources/ISRs.d" \
+"./Sources/UART_com.d" \
 "./Sources/main.d" \
 "./Sources/mcu_conf.d" \
 "./Sources/sa_mtb.d" \
@@ -50,6 +56,7 @@ C_DEPS_QUOTED += \
 OBJS_OS_FORMAT += \
 ./Sources/I2C_com.o \
 ./Sources/ISRs.o \
+./Sources/UART_com.o \
 ./Sources/main.o \
 ./Sources/mcu_conf.o \
 ./Sources/sa_mtb.o \
@@ -72,9 +79,17 @@ Sources/ISRs.o: ../Sources/ISRs.c
 	@echo 'Finished building: $<'
 	@echo ' '
 
-Sources/main.o: ../Sources/main.c
+Sources/UART_com.o: ../Sources/UART_com.c
 	@echo 'Building file: $<'
 	@echo 'Executing target #3 $<'
+	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/UART_com.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/UART_com.o"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+Sources/main.o: ../Sources/main.c
+	@echo 'Building file: $<'
+	@echo 'Executing target #4 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/main.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/main.o"
 	@echo 'Finished building: $<'
@@ -82,7 +97,7 @@ Sources/main.o: ../Sources/main.c
 
 Sources/mcu_conf.o: ../Sources/mcu_conf.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #4 $<'
+	@echo 'Executing target #5 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/mcu_conf.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/mcu_conf.o"
 	@echo 'Finished building: $<'
@@ -90,7 +105,7 @@ Sources/mcu_conf.o: ../Sources/mcu_conf.c
 
 Sources/sa_mtb.o: ../Sources/sa_mtb.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #5 $<'
+	@echo 'Executing target #6 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/sa_mtb.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/sa_mtb.o"
 	@echo 'Finished building: $<'
