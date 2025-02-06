@@ -62,7 +62,7 @@ void Lpt_conf( void ) {
 
 /**
  * @brief This function configures the UART0 controller.
- * @note UART0 is master, simplex communication to other device using a bit rate of 57.6Kbps.
+ * @note UART0 is master, simplex communication to other device using a bit rate of 19.2Kbps.
  * 
  */
 void UART0_conf( void ) {
@@ -75,12 +75,12 @@ void UART0_conf( void ) {
     SIM_SCGC5 |= 512;   //Port A clock enabled.
     PORTA_PCR2 = 512;   //ALT2.
 
-    /*Bit rate configuration -->58.823Kbps.
-    SBR = 4
+    /*Bit rate configuration -->18.1Kbps.
+    SBR = 13
     OSR = 16
     */
    UART0_BDH = 0;
-   UART0_BDL = 4;
+   UART0_BDL = 13;
 
    //Transmission parameters.
    //By default UART frame data payload size is 8 bits.

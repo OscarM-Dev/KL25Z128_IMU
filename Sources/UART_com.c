@@ -100,7 +100,7 @@ status Terminal_com( volatile float *const angles ) {
     uint32_t string_add[3] = { ( uint32_t ) str_in_X, ( uint32_t ) str_in_Y, ( uint32_t ) str_in_Z }; //Array of base addresses of each string.
     uint8_t data_digits[3]; //Array of number of digits of each inclination value.
     const uint8_t board_inclination[3] = { ( uint8_t ) angles[0], ( uint8_t ) angles[1], ( uint8_t ) angles[2] };   //Rounded inclination values ( X, Y and Z ).
-    const uint8_t str_pre_in[] = "The\tboard\tinclination\tvalues\tin\tX,\tY\tand\tZ\tare\t";
+    const uint8_t str_pre_in[] = "The board inclination values in X, Y and Z are\t";
     const uint8_t str_chars_in[3] = { ',', '[', ']' };
     uint8_t str_post_in[] = "\tdegrees\n";
     status result = OK;

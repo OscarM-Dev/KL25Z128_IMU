@@ -4,9 +4,8 @@
  * using I2C standard communication with a bit rate of 100Kbps, and a LPTMR timer using a temporization of 100ms
  * for calculating the inclination. 
  * 
- * @note The inclination values are rounded and sent to the PC terminal via UART-USB.
+ * @note The inclination values are rounded and sent to the PC terminal via UART-USB every 300ms.
  * 
- * //Bugs with the translation of 8 and 0.
  */
 //Headers.
 #include "derivative.h" /* include peripheral declarations */
