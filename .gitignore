@@ -1,5 +1,4 @@
+#Ignoring temp files.
 /FLASH/*
 !/FLASH/*.mk
 !/FLASH/makefile
-!/FLASH/Sources/*.mk
-!/FLASH/Project_Settings/Startup_Code/*.mk
