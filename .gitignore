@@ -2,3 +2,4 @@
 /FLASH/*
 !/FLASH/*.mk
 !/FLASH/makefile
+/Project_Settings/Debugger/*Trace*
