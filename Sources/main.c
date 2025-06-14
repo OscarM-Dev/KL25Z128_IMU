@@ -4,6 +4,7 @@
  * using I2C standard communication with a bit rate of 100Kbps, and a LPTMR timer using a temporization of 100ms
  * for calculating the inclination. 
  * 
+ * @note The inclination values are rounded and sent to the PC terminal via UART-USB every 300ms.
  * 
  */
 //Headers.
@@ -15,12 +16,12 @@ volatile float board_inclination[3]; //Board inclination in deg from x, y and z 
 
 int main( void ){
 	//local data
-	const uint32_t conf_func_addrs[3] = { ( uint32_t ) Clk_conf, ( uint32_t ) I2C0_conf , ( uint32_t ) Lpt_conf };	
+	const uint32_t conf_func_addrs[4] = { ( uint32_t ) Clk_conf, ( uint32_t ) I2C0_conf , ( uint32_t ) UART0_conf, ( uint32_t ) Lpt_conf };	
 	void ( *conf ) ( void ) = 0;	//Pointer to function.
 	uint8_t i = 0;
 
 	//Mcu configuration.
-	for ( i = 0; i < 3; i++ ) {
+	for ( i = 0; i < 4; i++ ) {
 		conf = ( void* ) conf_func_addrs[i];
 		conf();
 	}

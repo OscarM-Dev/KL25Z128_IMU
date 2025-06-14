@@ -60,13 +60,41 @@ void Lpt_conf( void ) {
     LPTMR0_CSR |= 1;    //Counter enabled.
 }
 
+/**
+ * @brief This function configures the UART0 controller.
+ * @note UART0 is master, simplex communication to other device using a bit rate of 19.2Kbps.
+ * 
+ */
+void UART0_conf( void ) {
+    SIM_SOPT2 = 0x0C000000;   //UART0 alternate clock, MCGIRCLK selected.
+    SIM_SCGC4 |= 1024;  //Clock enabled.
+
+    //MCGIRCLK is the clk source for the module.
+
+    //Pin configuration, PTA2 -->TX
+    SIM_SCGC5 |= 512;   //Port A clock enabled.
+    PORTA_PCR2 = 512;   //ALT2.
+
+    /*Bit rate configuration -->18.1Kbps.
+    SBR = 13
+    OSR = 16
+    */
+   UART0_BDH = 0;
+   UART0_BDL = 13;
+
+   //Transmission parameters.
+   //By default UART frame data payload size is 8 bits.
+   //By default parity bit is disabled.
+
+   UART0_C2 = 8;    //UART transmission enabled.
+}
 
 /**
  * @brief This function configures the I2C0 controller.
  * @note I2C0 is master, in standardad mode with maximum bit rate of 100Kbps, in reality 93.750Kbps.
  */
 void I2C0_conf( void ) {
-    SIM_SCGC4 = 64; //Clock enabled.
+    SIM_SCGC4 |= 64; //Clock enabled.
     I2C0_C1 = 0x80; //Module enabled.
 
     //Bus clk is the clk source for the module.
